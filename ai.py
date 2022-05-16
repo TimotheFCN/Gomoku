@@ -9,8 +9,8 @@ def get_best_move(state, depth, is_max_state):
     pieces = len(values[values != piece.EMPTY])
 
     if pieces == 0:
-        return first_move(state)
-    if pieces == 1:
+        return ([7,7], 1)
+    if pieces == 2:
         return second_move(state)
 
     top_moves = get_top_moves(state, 10, is_max_state)
@@ -79,12 +79,9 @@ def first_move(state):
 
 
 def second_move(state):
-    i, j = state.last_move
-    size = state.size
-    i2 = i <= size // 2 and 1 or -1
-    j2 = j <= size // 2 and 1 or -1
-    return (i + i2, j + j2), 2
-
+    #The corners of the 7x7 square around H8
+    secondpos = ((4,4), (4,11), (11,4), (11,11))
+    return secondpos[np.random.randint(0,4)], 2
 
 #Evaluation function
 def evaluation_state(state, current_color):
@@ -103,7 +100,7 @@ def evaluate_color(state, color, current_color):
         evaluation += evaluate_line(values[i, :], color, current)
         evaluation += evaluate_line(values[:, i], color, current)
 
-    # evaluate diags
+    # evaluate diags (by turning it into a line)
     for i in range(-size + 5, size - 4):
         evaluation += evaluate_line(np.diag(values, k=i),
                                     color,
@@ -120,6 +117,7 @@ def evaluate_line(line, color, current):
     size = len(line)
     # consecutive
     consec = 0
+    #a block is a group of pieces
     block_count = 2
     empty = False
 
@@ -160,7 +158,6 @@ def calc(consec, block_count, is_current, has_empty_space=False):
         return 100000
 
     consec_score = (2, 5, 1000, 10000)
-    # 3: 0.05
     block_count_score = (0.5, 0.6, 0.01, 0.25)
     not_current_score = (1, 1, 0.2, 0.15)
     empty_space_score = (1, 1.2, 0.9, 0.4)

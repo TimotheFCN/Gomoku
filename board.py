@@ -1,5 +1,6 @@
 import numpy as np
 import piece
+import string
 
 
 class BoardState:
@@ -90,6 +91,7 @@ class BoardState:
         self.values[i, j] = value
 
     def __str__(self):
+        alphabet=string.ascii_lowercase
         out = ' ' * 3
         out += '{}\n'.format(''.join(
             '{}{}'.format((i + 1) % 10, i < 10 and ' ' or "'")
@@ -97,7 +99,7 @@ class BoardState:
         ))
 
         for i in range(self.size):
-            out += '{}{} '.format(i + 1 < 10 and ' ' or '', i + 1)
+            out += alphabet[i].upper() + " "
             for j in range(self.size):
                 out += piece.symbols[self[i, j]]
                 if self.last_move and (i, j) == tuple(self.last_move):

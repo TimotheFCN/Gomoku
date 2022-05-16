@@ -1,3 +1,4 @@
+import time
 import piece
 import numpy as np
 from board import BoardState
@@ -5,10 +6,11 @@ from ai import get_best_move
 
 
 class GameRunner:
-    def __init__(self, size=19, depth=2):
+    def __init__(self, size=15, depth=2):
         self.size = size
         self.depth = depth
         self.finished = False
+        self.total_time = 0
         self.restart()
 
     def restart(self, player_index=1):
@@ -27,25 +29,12 @@ class GameRunner:
         return True
 
     def aiplay(self):
-        # import time
-        # t = time.time()
+        t = time.time()
         if self.state.color == self.ai_color:
             return False, (0, 0)
         move, value = get_best_move(self.state, self.depth, self.is_max_state)
         self.state = self.state.next(move)
         self.finished = self.state.is_terminal()
-        # print(time.time() - t)
+        self.total_time += time.time() - t
+        print("Temps de reflexion: " + str(time.time() - t))
         return True, move
-
-    def get_status(self):
-        board = self.state.values
-        return {
-            'board': board.tolist(),
-            'next': -self.state.color,
-            'finished': self.finished,
-            'winner': self.state.winner,
-            # 'debug_board': self.state.__str__()
-        }
-        
-    def get_board(self):
-        return self.state.values
