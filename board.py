@@ -42,9 +42,11 @@ class BoardState:
             return True
         return is_win
 
+    #Check if one of the player just won
     def check_five_in_a_row(self):
+        #A diagonal of 5 pieces
         pattern = np.full((5,), 1)
-
+        #Multiplied to get a pattern of specific color
         black_win = self.check_pattern(pattern * piece.BLACK)
         white_win = self.check_pattern(pattern * piece.WHITE)
 
@@ -74,7 +76,7 @@ class BoardState:
             l.append(self.values[i, :])
             l.append(self.values[:, i])
 
-        # 2 diags
+        # both diags
         for i in range(-self.size + 5, self.size - 4):
             l.append(np.diag(self.values, k=i))
             l.append(np.diag(np.fliplr(self.values), k=i))
@@ -90,6 +92,7 @@ class BoardState:
         i, j = position
         self.values[i, j] = value
 
+    #Print the board
     def __str__(self):
         alphabet=string.ascii_lowercase
         out = ' ' * 3
@@ -125,7 +128,7 @@ def issub(l, subl):
             return True
     return False
 
-
+#Expand the area around the last move
 def expand_area(size, idxs):
     area_idxs = np.copy(idxs)
     for i in range(size):
