@@ -35,7 +35,6 @@ def main():
         play()
         clear()
         game_runner.aiplay()
-    clear()
     print(game_runner.state)
     print("-----\nPartie terminée\n" + piece.symbols[game_runner.state.winner] + " a gagné !")
     print("Temps total de reflexion de l'IA: " + str(game_runner.total_time))

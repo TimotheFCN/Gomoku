@@ -30,9 +30,10 @@ class GameRunner:
 
     def aiplay(self):
         t = time.time()
+        #Added security
         if self.state.color == self.ai_color:
             return False, (0, 0)
-        move, value = get_best_move(self.state, self.depth, self.is_max_state)
+        move = get_best_move(self.state, self.depth, self.is_max_state)
         self.state = self.state.next(move)
         self.finished = self.state.is_terminal()
         self.total_time += time.time() - t

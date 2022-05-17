@@ -32,7 +32,7 @@ def get_best_move(state, depth, is_max_state):
     if best_move[0] == -1 and best_move[1] == -1:
         return top_moves[0]
 
-    return best_move, best_value
+    return best_move
 
 
 def get_top_moves(state, n, is_max_state):
