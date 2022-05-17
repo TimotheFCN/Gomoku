@@ -95,7 +95,7 @@ class BoardState:
     #Print the board
     def __str__(self):
         alphabet=string.ascii_lowercase
-        out = ' ' * 3
+        out = ' ' * 2
         out += '{}\n'.format(''.join(
             '{}{}'.format((i + 1) % 10, i < 10 and ' ' or "'")
             for i in range(self.size)
